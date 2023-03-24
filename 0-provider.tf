@@ -1,5 +1,5 @@
 provider "aws" {
-    region = var.region
+    region = tfvar.region
 }
 
 variable "cluster_name" {
