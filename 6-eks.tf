@@ -1,5 +1,5 @@
-resource "aws_iam_role" "eks-cluster-tfcb-jsgu" {
-  name = "eks-cluster-${var.cluster_name}-jsgu"
+resource "aws_iam_role" "eks-cluster" {
+  name = "eks-cluster-${var.cluster_name}"
 
   assume_role_policy = <<POLICY
 {
