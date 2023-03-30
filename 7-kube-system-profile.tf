@@ -12,3 +12,8 @@ resource "aws_iam_role" "eks-fargate-profile" {
     Version = "2012-10-17"
   })
 }
+
+resource "aws_iam_role_policy_attachment" "eks-fargate-profile" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy"
+  role       = aws_iam_role.eks-fargate-profile.name
+}
