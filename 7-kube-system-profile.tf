@@ -31,6 +31,9 @@ resource "aws_eks_fargate_profile" "kube-system" {
   ]
 
   selector {
-    namespace = "kube-system"
+    namespace = [
+     "kube-system",
+     "default"   
+    ]
   }
 }
