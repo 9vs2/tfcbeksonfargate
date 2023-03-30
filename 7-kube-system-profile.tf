@@ -1,3 +1,4 @@
+/*
 resource "aws_iam_role" "eks-fargate-profile" {
   name = "eks-fargate-profile"
 
@@ -34,3 +35,4 @@ resource "aws_eks_fargate_profile" "kube-system" {
     namespace = "kube-system"
   }
 }
+*/
