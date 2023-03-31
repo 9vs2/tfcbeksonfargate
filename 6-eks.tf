@@ -22,8 +22,6 @@ resource "aws_iam_role_policy_attachment" "amazon-eks-cluster-policy" {
   role       = aws_iam_role.eks-cluster.name
 }
 
-
-
 resource "aws_eks_cluster" "cluster" {
   name     = var.cluster_name
   version  = var.cluster_version
@@ -44,4 +42,21 @@ resource "aws_eks_cluster" "cluster" {
   }
 
   depends_on = [aws_iam_role_policy_attachment.amazon-eks-cluster-policy]
+}
+
+module "eks_auth" {
+  source = "aidanmelen/eks-auth/aws"
+  eks    = aws_iam_role.eks-cluster
+
+  map_roles = [
+    {
+      rolearn  = "arn:aws:sts::789535401130:assumed-role/CCOE/CCOE@KESBOXCOE"
+      username = "role1"
+      groups   = ["system:masters"]
+    },
+  ]
+
+  map_accounts = [
+    "789535401130"
+  ]
 }
