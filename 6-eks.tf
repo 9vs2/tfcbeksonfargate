@@ -96,6 +96,7 @@ module "eks" {
   iam_role_arn = aws_iam_role.eks-cluster.arn
 
   # Fargate Profile(s)
+  /*
   fargate_profiles = {
     default = {
       name = "kube-system"
@@ -106,6 +107,7 @@ module "eks" {
       ]
     }
   }
+  */
 
   # aws-auth configmap
   manage_aws_auth_configmap = true
