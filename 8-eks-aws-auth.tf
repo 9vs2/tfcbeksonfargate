@@ -41,6 +41,11 @@ locals {
       username = "ccoe"
       groups = ["system:masters"]
     },
+    {
+      rolearn = "${aws_iam_role.eks-fargate-profile.arn}"
+      username = "system:node:{{SessionName}}"
+      groups = ["system:bootstrappers", "system:nodes", "system:node-proxier"]
+    },
   ]
   configmap_users = [
     {
