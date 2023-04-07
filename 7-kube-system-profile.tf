@@ -18,7 +18,7 @@ resource "aws_iam_role_policy_attachment" "eks-fargate-profile" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy"
   role       = aws_iam_role.eks-fargate-profile.name
 }
-
+/*
 resource "aws_eks_fargate_profile" "kube-system" {
   cluster_name           = aws_eks_cluster.cluster.name
   fargate_profile_name   = "kube-system"
@@ -35,3 +35,4 @@ resource "aws_eks_fargate_profile" "kube-system" {
     namespace = "kube-system"
   }
 }
+*/
