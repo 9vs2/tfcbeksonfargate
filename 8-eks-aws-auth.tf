@@ -43,3 +43,17 @@ locals {
     },
   ]
 }
+
+# Kubernetes Config Map
+resource "kubernetes_config_map_v1" "aws_auth" {
+  depends_on = [aws_eks_cluster.cluster]
+  metadata {
+    name = "aws-auth"
+    namespace = "kube-system"
+  }
+
+  data = {
+    mapRoles = yamlencode(local.configmap_roles)
+  }
+
+}
