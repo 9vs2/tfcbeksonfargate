@@ -24,3 +24,11 @@ output "cluster_certificate_authority_data" {
   description = "Nested attribute containing certificate-authority-data for your cluster. This is the base64 encoded certificate data required to communicate with your cluster."
   value       = aws_eks_cluster.cluster.certificate_authority[0].data
 }
+
+# Pull AWS Account ID
+data "aws_caller_identity" "current" {}
+
+output "account_id" {
+  value = data.aws_caller_identity.current.account_id
+}
+
