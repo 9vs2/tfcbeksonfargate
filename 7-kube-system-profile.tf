@@ -1,6 +1,6 @@
 
 resource "aws_iam_role" "eks-fargate-profile" {
-  name = "eks-fargate-profile"
+  name = "eks-fargate-profile-jsgu"
 
   assume_role_policy = jsonencode({
     Statement = [{
