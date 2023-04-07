@@ -107,8 +107,7 @@ module "eks" {
       ]
     }
   }
-  */
-/*
+
   # aws-auth configmap
   manage_aws_auth_configmap = true
 
@@ -124,3 +123,4 @@ module "eks" {
     "789535401130",
   ]
 }
+*/
