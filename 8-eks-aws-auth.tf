@@ -42,6 +42,13 @@ locals {
       groups = ["system:masters"]
     },
   ]
+  configmap_users = [
+    {
+      userarn = "${aws_iam_user.basic_user.arn}"
+      username = "${aws_iam_user.basic_user.name}"
+      groups = ["system:masters"]
+    },
+  ]
 }
 
 # Kubernetes Config Map
@@ -54,5 +61,6 @@ resource "kubernetes_config_map_v1" "aws_auth" {
 
   data = {
     mapRoles = yamlencode(local.configmap_roles)
+    mapUsers = yamlencode(local.configmap_users)
   }
 }
