@@ -9,7 +9,10 @@ resource "aws_iam_role" "eks-cluster" {
     {
       "Effect": "Allow",
       "Principal": {
-        "Service": "eks.amazonaws.com"
+        "Service": [
+          "eks.amazonaws.com",
+          "eks-fargate-pods.amazonaws.com"
+          ]
       },
       "Action": "sts:AssumeRole"
     }
@@ -22,7 +25,12 @@ resource "aws_iam_role_policy_attachment" "amazon-eks-cluster-policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.eks-cluster.name
 }
-/*
+
+resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController1" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+  role       = aws_iam_role.eks-cluster.name
+}
+
 resource "aws_eks_cluster" "cluster" {
   name     = var.cluster_name
   version  = var.cluster_version
@@ -44,83 +52,22 @@ resource "aws_eks_cluster" "cluster" {
 
   depends_on = [aws_iam_role_policy_attachment.amazon-eks-cluster-policy]
 }
-
-module "eks_auth" {
-  source = "aidanmelen/eks-auth/aws"
-  eks    = aws_iam_role.eks-cluster
-
-  map_roles = [
-    {
-      rolearn  = "arn:aws:sts::789535401130:assumed-role/CCOE/CCOE@KESBOXCOE"
-      username = "role1"
-      groups   = ["system:masters"]
-    },
-  ]
-
-  map_accounts = [
-    "789535401130"
-  ]
-}
-*/
-
-
-module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "~> 19.0"
-
-  cluster_name    = var.cluster_name
-  cluster_version = var.cluster_version
-
-  cluster_endpoint_public_access  = true
-
-  cluster_addons = {
-    coredns = {
-      most_recent = true
-    }
-    kube-proxy = {
-      most_recent = true
-    }
-    vpc-cni = {
-      most_recent = true
-    }
-  }
-
-  vpc_id                   = aws_vpc.main.id
-  subnet_ids               = [
-      aws_subnet.private-ap-northeast-3a.id,
-      aws_subnet.private-ap-northeast-3b.id,
+/*
+resource "aws_eks_node_group" "eks_node_group" {
+  cluster_name    = aws_eks_cluster.cluster.name
+  node_group_name = "${var.cluster_name}-${var.environment}-  node_group"
+  node_role_arn   = aws_iam_role.eks_node_group_role.arn
+  subnet_ids      = [
       aws_subnet.public-ap-northeast-3a.id,
       aws_subnet.public-ap-northeast-3b.id
-    ]
-  //control_plane_subnet_ids = ["subnet-xyzde987", "subnet-slkjf456", "subnet-qeiru789"]
-  iam_role_arn = aws_iam_role.eks-cluster.arn
+  ]
 
-  # Fargate Profile(s)
-  /*
-  fargate_profiles = {
-    default = {
-      name = "kube-system"
-      selectors = [
-        {
-          namespace = "kube-system"
-        }
-      ]
-    }
+  scaling_config {
+    desired_size = 2
+    max_size     = 3
+    min_size     = 2
   }
-  */
 
-  # aws-auth configmap
-  manage_aws_auth_configmap = true
-
-  aws_auth_roles = [
-    {
-      rolearn  = "arn:aws:sts::789535401130:assumed-role/CCOE/CCOE@KESBOXCOE"
-      username = "role1"
-      groups   = ["system:masters"]
-    },
-  ]
-
-  aws_auth_accounts = [
-    "789535401130",
-  ]
+  instance_types  = "t3.xlarge"
 }
+*/
