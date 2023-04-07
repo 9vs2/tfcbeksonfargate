@@ -37,8 +37,8 @@ locals {
   configmap_roles = [
     {
       #rolearn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.eks_nodegroup_role.name}"
-      rolearn = "arn:aws:sts::789535401130:assumed-role/CCOE/CCOE@KESBOXCOE"
-      username = "role1"
+      rolearn = "arn:aws:iam::789535401130:role/CCOE"
+      username = "ccoe"
       groups = ["system:masters"]
     },
   ]
