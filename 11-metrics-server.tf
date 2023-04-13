@@ -1,8 +1,3 @@
-# Datasource: 
-data "aws_eks_cluster_auth" "cluster" {
-  name = aws_eks_cluster.cluster.id
-}
-
 provider "helm" {
   kubernetes {
     host                   = aws_eks_cluster.cluster.endpoint
